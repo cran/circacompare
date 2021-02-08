@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Introduction to using circacompare</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to using circacompare</h1>
+
+
+
+<div id="input-data" class="section level2">
+<h2>Input data</h2>
+<p>The first part of using circacompare to analyse your data is to ensure that your data is formatted correctly. All of the functions within the circacompare package expect that your data will be of a tidy format, meaning that each row will contain only one observation, with columns to represent the time, group or subject ID for that observation.</p>
+<p>In the simplest case, you may have a single rhythm for which you’re wanting to estimate the mesor, amplitude and phase. In this case, you only need a variable for the time of observation and the outcome which you’re wanting to model.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_single)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   time measure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    1     5.3</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    2     5.7</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    3     7.9</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    4    12.0</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    5    14.0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    6    13.0</span></span></code></pre></div>
+<p>In the case that you have data from two groups and you’re wishing to determine the differences in mesor, amplitude, or phase between them, you will need an additional column (with two possible values) representing the groups.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_grouped)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   time measure group</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    1     1.7    g1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    2     5.6    g1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    3    10.0    g1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    4     8.8    g1</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    5    11.0    g1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    6     4.0    g1</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(data_grouped)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    time measure group</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 43   19     7.8    g2</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 44   20     9.6    g2</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 45   21    15.0    g2</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 46   22    14.0    g2</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 47   23    19.0    g2</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 48   24    15.0    g2</span></span></code></pre></div>
+</div>
+<div id="circa_single" class="section level2">
+<h2><code>circa_single()</code></h2>
+<p><code>circa_single()</code> is used to analyse a single rhythm and provide estimates of its mesor, amplitude and phase.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">circa_single</span>(<span class="at">x=</span>data_single, <span class="at">col_time=</span><span class="st">&quot;time&quot;</span>, <span class="at">col_outcome=</span><span class="st">&quot;measure&quot;</span>, <span class="at">period=</span><span class="dv">24</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>result</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Nonlinear regression model</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   model: measure ~ k + alpha * cos(time_r - phi)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    data: x</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        k    alpha      phi </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.02479 10.66995  1.52831 </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  residual sum-of-squares: 242.7</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Number of iterations to convergence: 6 </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Achieved convergence tolerance: 5.564e-07</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         mesor amplitude  amplitude_p phase_radians peak_time_hours</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -0.02479123  10.66995 3.996067e-26      1.528313        5.837727</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAeAAAAFQCAMAAABQwF3SAAAAw1BMVEUAAAAAADoAAGYAOjoAOpAAZrYzMzM6AAA6ADo6AGY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmkJBmtrZmtv9uTU1uTW5uTY5ubqtuq+SOTU2OTW6OTY6OyP+QOgCQkDqQkGaQtpCQ27aQ2/+rbk2rbm6rbo6ryKur5P+2ZgC225C22/+2/9u2///Ijk3I///bkDrb/7bb///kq27k///r6+v/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////M7ChwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAASPElEQVR4nO2diXrbNhaFrz3x2LHSxJ1R0yat1Xay1JqOHU1sOep4Ed//qYbgThErcUEsvOdLZEs8BC75CxsJwpCRkhb4DoDkVuA7AJJbge8ASG4FvgMguRX4DoDkVuA7AJJbge8ASG4FvgMguRWY7/K8AqaT7md//dmz7M4+DHY7/CzfhWfjf0gaKzDf5Xl1Xry++Np8pAPlwMPeEkv3AvNdSsDZ48Wy+YgABysw36UCnG3ySnp3mlfW5+z1vPq92FTQY2/L78Du5a9w/O+z34oP1qxu3/yN7bKrPtqd/X5aJbMs9mWtwIkof5KJwHyXGvD9i69FKd4cXzMo9e9sU/6+KJ2704Lw7rT4LuR1er79Prc8r5bld6D8qPwJ1ZuzD8+rk14FQRovMN+lAXx8/T/WDFc069+z6qOX180eBefy5ewDI5dvLAGXH/W2118OEorAfJdOCc5f8jr2qCJS/s42sffrtpYtS3P9klft+b+mDW5Ke/vm/vhakDfJVGC+Sw14zerRow81ofp3tqn88XgBTY3dedm9/M9qSYAnEpjv0ulFl4W4LMH172xbXcdWDWkf8PPqH3n1LQNMVTSewHyXzjiY8dydHhXtav07s9SlsFug25cNq7uLplgAmHWy2H+SvcB8l+pKVlGM84b26F85qnXOrP49K2G1LfIh4LJvne8iAkzDJDyBhzy7HWySY4GHPDfnHjKdq2DyHIurGqSpBL4DILkV+A6A5FbgOwCSW4HvAEhuBb4DILkV+A6A5FZgvst2KN5nPJFvMh8BTtxHgBP3EeDEfQQ4cR8BTtxHgBP3EeDEfQQ4cZ824Icfv2TZ7WKx+O4LAY7Ipwv4WwH25tJrCQYA1PTm4NMEfPPqj7wE7z9d+QRczPFDTG8WPt0SXFTRT+/zKrooxH/PpdoDXQXgyXNNRKAyMMAPb686pXjybyqV4BE+I8CFmnZ4+gOhNtjcFxVg8pn7jAB/e32X7T/TMCkmn1kJzsfBr5qOdFgHQj6+TxvwUGEdCPn4vqABCztVjvNNyRcyYPGwyG2+SfkIcOI+Apy4L2TA1AYj+IIGTD57HwFO3EeAE/dFBZhuNpj7YgJMtwtH+Ahw4j4CnLgvJsDUBo/wRQWYfOY+C8CkmATmu4T1TSUf30eAE/cFBXjQiYrgBIbuCwnwcBgUwQkM3UeAE/cR4MR9IQGmNjh1wOTD9xHgxH0EOHEfAU7cR4AT9xHgxH0EOHFfHIChElZ6M/JFABiGmiTfNHyBAz4gKqIcwYn25QsYsKRePtwSwYn25dMGXCzh8PR+8fpuGsDyRnfbvzURwYn25dMFXCxluP94md2+mQJwRU/uawlnzQeW+abn0wRcLmX49MuXdjklh4CbwqlKr+9TP08cARBsn1EV/fDTXfb0M1tmx+VShiYrFva8tNShRKAy1OtklYCZ3HwDe8VQt62mEiz0GQFuS7ArwH1Gek/4t/tQGzz0GQF23gb3i6C6RJoaIwCC7TMCvP/4zmkv+gCTNrfygsj4fFP2GQF2PA4+hKQE3B0maSGOAAi2TxvwUNgBDgmp+VaGbKtHOAIg2L5gAHP5qC90QMenJhwBEGxfKID55c8MsLoQRwAE2xcIYAEZRXqHlyqVhCMAgu0LAnDNZYDHPD054QiAYPtCANzha/foCttdSjgCINi+AAA3SGwBl/vLCEcABNvnH3ALBAewjHAEQLB93gFLrz2PAiwhHAEQbJ9XwKC6VjWiDe7+tE0vBZ9PwEq+ow9YlGwEQLB93gFjHUhf48bVKfoSBcwnrHtzKgZwuj7fgNEO5FCctA1uP47PNzSfR8CO7/5wb04R4OkErifIDTIoALvNM1yB+S523yytwmT3jR5kQW3wdIAnmWIzyCMCINg+f4C39rMgB7cLhwaj9FL0eQJc87UaJg1u+PMc4+JLx+cHsOj2oFl6asCHhCMAgu3zAri9ZOwW8OBaaARAsH0+ANePmrhugwEOCUcABNs3KeDmbt40BzycABABEGzflICbG/ITHfBwAkAEQLB90wNWP9g96kAEGXZ+2KcXo29ywDAh4DZj3PRi8k0JuO3VTn3AqgsirvINwDc9YEcHosoYNb2IfFMC1rgwMf5A5PL0xQrANxPAWz9NQwA+p4APLmT4BLz10bkLwecS8OGFwvatjwOGycbfQfnMAN8uFmxBtHGAfV9wIMBq3VxalGDvlwynukQalM8I8P7TVeedOmMRX18HTIAVenqfV9FFITZf6S6E+W4BhOBNoGN6eHvVKcVG36ww7svSpDsNNe2wScahzKwgwM4Auz4QPR9NfJeKLUa6/zxiKcNwZjfObslDsxKcj4NfNR1p/YwHU3M8HjABZtoALDcvvsppa2c8nHrlE7AO4QjA6fq4gNcv/nuxfF6d4ADmTK3zeWLcPzITlI8H+PFimf/L7o+vkQBPcSD6vnktWuoesPkShY59jh9bDczHA5xtWBX9eHEu5asJmHs6/Z4YApzds9sECr7agKc5EBPfnFal5QPWklbGQS6GYvtERUw+HuDn1RILcKDLGdk9ExWVjweY9bCwAE92IGY+BWHv8eH5eIAz5TUOXcDhrjg3a8CPF+UMdfthkugsBnBiUlxXmndJmFuC9aTOOORFQaWVdADxjfANn7d2DDjsZX1nDBirihafwSBOTHILhxuW4MfvP9iV4OBPIG8pvCnydeYzbIPvtfrSQkUwww0O3kIIMwMdCYYfWd5siKCXevCF9/pojSufBPBaUYLlGUcxDAno2SlXPh7gqpN1ZNMGR3Eh4bDNir0N5vkkJVglacZSvj47Hf3NgV4rR/Q5AhzExXzusOFwOzfQCMDp+riAiykdqmGwDHAYt+MIsAjw+iTbHF9vRk+6q8+a8HJgGIC39apOyPkG5eMBfiynVI4eJtWn1XsbpzUfO7wpRag+AWA2IcsC8Lb6GUUnRgw4hZkfPMDPq/P7fIy0HllFN2clFsDDGJuaKIjOopWPBzjbncKJ8jqHCHDnpHhug3V98wOsJ0HG8T05IHryggDzEozx2R/Rs1OptsGsih57PzjOxzMFgJ3nO4GPBzjvZD2vlsq5ldwEtfgGd2ICerwV28cDzNCuz5X3g3kJxvoEfSgrEOD7RIA3oy50xLvIyawAsxFwTlc1O5qToCbfAE9MIIvE4Pu4gPNGOFvz7gc/vV+8vpNV0f4OREeyXnEQyzw5GA1wAYu0/3iZ3b6JFrB8XBs/YO543gjw0y9fsocfR6yyE4ZPAbizKezjMLoixwcsWITl4ae77OlntsyO+VKGAUgxazL2SZXy4HsbRYuwsHWySsBM3r6po32KK1NxT7oT3PbkARau0dGW4DgBK3xRAxZNXDACHHkbnDJgfuUkaoNFi7DsP76LuRet9EU8bVY4t4wLWLgIS+TjYKUv2hIsnljBB6wlHweC6xvWa5EClsycmTNg3rg4zj+gJZk5wwVscT/Y7YHg+viAwXm+6D7ZSgo8wMplSBMGvI0QsHQlBR5gxGWUUA8E3cdtuthngcSn6RPyFZfgmQDmK7Y/oCWZxSpqg1W3+tMGvI0GcAG0x1dzjY6ZdLJEiuUvpJVAW6TagNn9/jmXYO2ZRyEAhhGAZ9PJEiomwJ2PddvgmXeyttFMHlQ+eiFsg1/OupO1jWj6rzxOYRUNs+5kMV8kgNXPTnFLsJ6mPJDJfXE8gqPx7BQBFvhieIhO5+E4C8CJC3wHoJbJHEEDa63pvqlefOE/56z154EIsNAXOmBlBU2A5T6NIhxBfARY7NMqIQ7y1fNpNiEEWOILeQkH3V4+ARb7gluEpTutV3ecToDFvtAAdyfma1+IIcBiX8CA9a+VE2CJT+dujYt8BWrDMbjbRYDlvpAAd1d51U6PACt8If7tCZMZJwRY5ZOdTT/xGc0ZI8BKX2iAgQDj+iRF2Ed8YDZvmwCrfdJHQxzmyxUYPnlBgDV8soe7XObLk+mzUwRYwxfQwubGj7eaAb5dLBbfJbtGh9gXDGBwDPjmcpYlWLZEgtt8B2GAaXpGgPefrjrvHB5IcD5BJT1xfGMWiTEC/PQ+r6KLQhzlSnc2CmIRPJsYtHZ9eHvVKcXuvqkh+rhleNr42ggySUwH6WkDvlksyhWymnbY2YGE6Sv+DB6ofdj5dgI4AKx1O9OoBM8a8PBhvskBH/jwAbPFSPefZzhMKuQZ8HC5YwclOB8Hv2o60o4OJFyfV8C8FekdP7ri5kBC9vlsg3s5O7vQMXPAHv++0ug/GkKAjXz982wydQYzXwLszNdDqu7kYOVr0fYTYDOfL8Cj0yPAhj7pskWO8q1zcX4tmgBvDwlPkW9ntqzju0kEmGlwRclZviVP6BRgAjyFb3DR31G+1VKFTXYEeCJfe8onAAy8JoEAu/WNOdEjfId8R6VHgMf4RlSVY3zCbjoBdu3jT35Dn30pSpAAO/cBZ36yeFxs1Yu2S48Aj/TpALZsq8XD7GkAz1zDGXAFYMl74wwsdh6mZr6L3Tcret/wIbDDEjxq3Nrfm6poj77BY5yogAeDYOP4tgTY0sdpctHa4OoaFgH26hMCtc63SIkA+/dp3k8yzbdKltpgzz5ZP8gmX53ZkrrpEWADH6/N1SJslq86SQLsxMfvJesQ1q8Rtjp8CbAbn2AYhAYE/QtDgM18omGQupo2AIxd5RNgA9/g5LedIjkVvc6TNl8CPLlPwaXpPGkQNspX7SPAOD45GgPAhvkqfQQYySeFowdYFy8B9uOT8NFpg2Fw80IzX7mPAOP5xPw00oPh7UfdfKU+Aozos7h2DKZLFOr6CDCmT9TIqtKr9/MJ+OHHL8VCWa/vCLDYJ+hHKdKzmRig8ukC/sbWqNx/vMxu3xBgmY+LWJpeZwd/gG9e/ZGX4KdfvpQlmQBLfBzEkvR6bt9V9MNPd9nTz2yZndktZWikAhqy01bKXBhgtk5WCZjJ7puVtu+gFAt8g7LupQRXaxj2SzABVvl6Nw54Pt6dBd9VNLXBJr767h/wh1PGnbFxPiPA+4/vqBdt5AOxJorPCDCNg8f4NOGi57ulK1mufQ1KcSfLSb5dHwF252sLK983LMwEOCofAU7cR4BT91EbTD7nPgKcuI8AJ+4jwIn7CHDiPgKcuI8AJ+4jwIn7CHDiPgKcuM8CMCkmgfkuYX1Tycf3EeAJfdKnCzW2j8mXAE/nk87W0dg+Kl8CPJ2PACfuI8Cp+6gNJh+6jwAn7iPAifsIcOI+Apy4jwAn7iPAifsIcOI+Apy4zwIwR9gLs1B6aOkBdoKUXljpAXaClF5Y6QF2gpReWOkBctKkwAS+AyC5FfgOgORW4DsAkluB7wBIbgX2SfRWSUPQ7WLBFqnG0nAlN4T00GJ8+GGxuESMr0qvjQ+sk+yvFo6gm0vExHgrmtunhxYjW+L14e0VWnxVep34wD7N3kql9tp/ulKbtMVb0dw+PbQYvzGqN5do8VXpdeID6zT7aw3bK6+tiloGS8P1kO3TQ40xDwz1HOYJdeID6/T6q4Xbi9UwmKV4uKK5fXqYMbKlfDHjY+l14gPrBLFLcCHEdthFCS6EE+PT+3eo57BIr1AZH9iniNwGF0IGjBkjLuCHH1gqePGV6RXCAtxfLdxerLraf8YdJmHGWFf5KDFWPNDiq9LrxAf2iToYB79CrPFdjYNRYmTjVdYdwoqvTq+NDxBSJQUs8B0Aya3AdwAktwLfAZDcCnwHQHIr8B0Aya3AdwBu9def2e7sg8TwvFrKDZUev9cwhSjwHYBTqdltTjRMTPcvvmJENLnAdwBOpWTHCqYe4Lyoo4Q0tcB3AC61OwU4z/ntzn4vfstflgwVwPF16djk5XJ39hs0G06qbwXb6+WvuY/txDbGWoTBdwBOxVgxVKc5nA2wl+Pr59VJCTZjSM/Z16DdwP43gE8b2qdLneo+SIHvAJyqAbxsKd2z0vt4UVS4xY/ehvylBcw+f1mV9XqX2AS+A3CqGnCFrHjZlH8I9JxtLwFXG4o6uOMui+y6qLazqrTHJ/AdgFNxAXfaUg3AzFQ02QQ4QPEA3x+1bWkfMNvQraKbRrewURUdoBiUQ8DPq7yk1pTX590NZSfr8eI8/3lU7lU0zO3+8Ql8B+BWazg5BFyMhupSfF8MkzobWHvLRkb//L4qwfdQuTc0TIpQ+lcg6UJHnNqcaBojvc4xe8C6BZNuNpDCFPgOgORW4DsAkluB7wBIbgW+AyC5FfgOgORW4DsAklv9H/+MjvqZbTnxAAAAAElFTkSuQmCC" /><!-- --></p>
+<p>The fitted model is included as the first element of the results.</p>
+<p>It fits a model: <code>measure ~ k + alpha * cos(time_r - phi)</code> where</p>
+<ul>
+<li><p><code>measure</code> is the outcome of interest</p></li>
+<li><p><code>k</code> is the mesor</p></li>
+<li><p><code>alpha</code> is the amplitude</p></li>
+<li><p><code>time_r</code> is the time in radian-hours, and</p></li>
+<li><p><code>phi</code> is the amount of phase shift (from <code>time=0</code>) in radian-hours.</p></li>
+</ul>
+<p>The parameter estimates of time in radian-hours (<code>time_r</code> and <code>phi</code>) are converted back to hours and reported in the <code>data.frame</code> (second element of list) and x-axis of the graph (third item of list)</p>
+</div>
+<div id="circacompare" class="section level2">
+<h2><code>circacompare()</code></h2>
+<p><code>circacompare()</code> is used to analyse a dataset with two groups of rhythmic data. It fits a model to estimate and statistically support differences in mesor, amplitude and phase between the two groups.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result2 <span class="ot">&lt;-</span> <span class="fu">circacompare</span>(<span class="at">x=</span>data_grouped, <span class="at">col_time=</span><span class="st">&quot;time&quot;</span>, <span class="at">col_group=</span><span class="st">&quot;group&quot;</span>, <span class="at">col_outcome=</span><span class="st">&quot;measure&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>result2</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt; 
+#&gt; [[2]]
+#&gt;                                   parameter         value
+#&gt; 1                 Both groups were rhythmic  1.000000e+00
+#&gt; 2  Presence of rhythmicity (p-value) for g1  6.283999e-13
+#&gt; 3  Presence of rhythmicity (p-value) for g2  9.111829e-20
+#&gt; 4                         g1 mesor estimate  8.750009e-02
+#&gt; 5                         g2 mesor estimate  3.560000e+00
+#&gt; 6                 Mesor difference estimate  3.472500e+00
+#&gt; 7              P-value for mesor difference  4.903987e-08
+#&gt; 8                     g1 amplitude estimate  9.527113e+00
+#&gt; 9                     g2 amplitude estimate  1.376314e+01
+#&gt; 10            Amplitude difference estimate  4.236029e+00
+#&gt; 11         P-value for amplitude difference  1.002484e-06
+#&gt; 12                             g1 peak time  5.899682e+00
+#&gt; 13                             g2 peak time  1.556495e-01
+#&gt; 14                Phase difference estimate -5.744033e+00
+#&gt; 15          P-value for difference in phase  4.751186e-25
+#&gt; 
+#&gt; [[3]]
+#&gt; Nonlinear regression model
+#&gt;   model: measure ~ k + k1 * x_group + (alpha + alpha1 * x_group) * cos(time_r -     (phi + phi1 * x_group))
+#&gt;    data: x
+#&gt;       k      k1   alpha  alpha1     phi    phi1 
+#&gt;  0.0875  3.4725  9.5271  4.2360  1.5445 -1.5038 
+#&gt;  residual sum-of-squares: 138.2
+#&gt; 
+#&gt; Number of iterations to convergence: 8 
+#&gt; Achieved convergence tolerance: 3.746e-08</code></pre>
+<p>This fits a model: <code>measure ~ k + k1 * x_group + (alpha + alpha1 * x_group) * cos(time_r - (phi + phi1 * x_group))</code> where</p>
+<ul>
+<li><p><code>x_group</code> is a dummy variable which represents the different groups: <code>x_group=0</code> and <code>x_group=1</code> for the first and second group, respectively</p></li>
+<li><p><code>measure</code> is the outcome of interest</p></li>
+<li><p><code>k</code> is the mesor of the first group</p></li>
+<li><p><code>k1</code> is the difference in mesor between the first and second group</p></li>
+<li><p><code>alpha</code> is the amplitude of the first group</p></li>
+<li><p><code>alpha1</code> is the difference in amplitude between the first and second group</p></li>
+<li><p><code>time_r</code> is the time in radian-hours</p></li>
+<li><p><code>phi</code> is the amount of phase-shift of the first group (from <code>time=0</code>) in radian-hours, and</p></li>
+<li><p><code>phi1</code> is the amount of phase-shift of the second group from the first group in radian-hours</p></li>
+</ul>
+<p>The time-related parameter estimates (<code>phi</code> and <code>phi1</code>) are converted from radian-hours to hours before being used to report <code>g1 peak time</code>, <code>g2 peak time</code>, and <code>phase difference estimate</code>.</p>
+<p>The second item of the <code>result2</code> list is a data.frame containing the important results from the model. It returns estimates and for the rhythmic parameters for each group as well as the p-values associated with those which represent differences between the groups (<code>k1</code>, <code>alpha1</code>, <code>phi1</code>).</p>
+<p>More detailed outputs from the model can be obtained from the model itself</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nls_model <span class="ot">&lt;-</span> result2[[<span class="dv">3</span>]]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(nls_model)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Waiting for profiling to be done...</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%      97.5%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; k      -0.6597294  0.8347294</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; k1      2.4157580  4.5292420</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha   8.4703715 10.5838554</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha1  2.7415705  5.7304881</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; phi     1.4333842  1.6556822</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; phi1   -1.6388271 -1.3687414</span></span></code></pre></div>
+</div>
+<div id="when-to-use-what" class="section level2">
+<h2>When to use what</h2>
+<p>If you are looking to estimate the rhythmic parameters of a single group, use <code>circa_single()</code>. If you are looking to estimate the differences between two rhythmic datasets, use <code>circacompare()</code></p>
+<p>If your data has a hierarchical structure, a mixed model may be more appropriate. This may be the case if you have repeated measurements from the same subjects/tissues over time, for example. In this case, consider the equivalents of the above: <code>circa_single_mixed()</code> and <code>circacompare_mixed()</code>. In addition to what has been described, these mixed models require the user to specify which parameters ought to have a random effect and the identifying column (<code>col_id</code>) for this hierarchical structure.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
