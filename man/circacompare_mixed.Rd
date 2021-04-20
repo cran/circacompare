@@ -3,6 +3,23 @@
 \name{circacompare_mixed}
 \alias{circacompare_mixed}
 \title{circacompare_mixed}
+\usage{
+circacompare_mixed(
+  x,
+  col_time,
+  col_group,
+  col_outcome,
+  col_id,
+  randomeffects = c(),
+  period = 24,
+  alpha_threshold = 0.05,
+  nlme_control = list(),
+  nlme_method = "REML",
+  verbose = FALSE,
+  timeout_n = 10000,
+  control = list()
+)
+}
 \arguments{
 \item{x}{\code{data.frame}.  This is the data.frame which contains the rhythmic data for two groups in a tidy format.}
 
@@ -14,7 +31,7 @@
 
 \item{col_id}{The name of the column within the data.frame, \code{x}, which contains the identifying values for the random effect, such as \code{subject_id}.}
 
-\item{randomeffects}{which rhythmic parameters to allow random effects. The default is to include all rhythmic parameters.}
+\item{randomeffects}{which rhythmic parameters to allow random effects. The default is to include no rhythmic parameters.}
 
 \item{period}{The period of the rhythm. For circadian rhythms, leave this as the default value, \code{24}.}
 
@@ -22,11 +39,13 @@
 
 \item{nlme_control}{A list of control values for the estimation algorithm to replace the default values returned by the function nlme::nlmeControl. Defaults to an empty list.}
 
-\item{nlme_method}{A character string. If "REML" the model is fit by maximizing the restricted log-likelihood. If "ML" the log-likelihood is maximized. Defaults to "ML".}
+\item{nlme_method}{A character string. If "REML" the model is fit by maximizing the restricted log-likelihood. If "ML" the log-likelihood is maximized. Defaults to "REML".}
 
 \item{verbose}{An optional logical value. If \code{TRUE} information on the evolution of the iterative algorithm is printed. Default is \code{FALSE}.}
 
 \item{timeout_n}{The upper limit for the model fitting attempts. Default is \code{10000}.}
+
+\item{control}{\code{list}. Used to control the parameterization of the model.}
 }
 \value{
 list
@@ -36,24 +55,27 @@ list
 }
 \examples{
 # Generate some data with within-id correlation for phase-shift (phi1)
+set.seed(99)
+phi1_in <- 3.15
+
 mixed_data <- function(n){
-    counter <- 1
-    for(i in 1:n){
-        x <- make_data(k1=0, alpha=0, phi1=rnorm(1, 6, 1))
-        x$id <- counter
-        counter <- counter + 1
-        if(i==1){res <- x}else{res <- rbind(res, x)}
-    }
-    return(res)
+  counter <- 1
+  for(i in 1:n){
+    x <- make_data(k1=0, alpha1=0, phi1=rnorm(1, phi1_in, 0.5), hours=72, noise_sd = 1)
+    x$id <- counter
+    counter <- counter + 1
+    if(i==1){res <- x}else{res <- rbind(res, x)}
+  }
+  return(res)
 }
-
-set.seed(42)
-df <- mixed_data(n=50)
-
-# Use a mixed model with a random effect only on phase-relevant parameters as
-# to not overparametrize the model.
-out <- circacompare_mixed(x = df, col_time = "time", col_group = "group",
-                          col_outcome = "measure", col_id = "id",
-                          randomeffects = c("phi", "phi1"))
+df <- mixed_data(20)
+out <- circacompare_mixed(
+  x = df,
+  col_time = "time",
+  col_group = "group",
+  col_outcome = "measure",
+  col_id = "id",
+  control=list(grouped_params=c("phi"), random_params=c("phi1"))
+)
 out
 }
