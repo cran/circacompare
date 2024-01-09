@@ -1,3 +1,17 @@
+# circacompare 0.2.0
+
+## Improvements
+
+* create website for circacompare with pkgdown.
+
+* support per-sample weights in `circacompare()`, `circa_single()`, `circa_single_mixed()` and `circacompare_mixed()`
+
+* better error messages - also makes the shiny app more verbose for users
+
+* allow the user to use `suppress_all` argument to show/hide messages during model fitting across all circacompare functions.
+
+* allow user to specify use of linear model (non-mixed) for fitting models to each group when using circacompare_mixed(). (Faster computation!)
+
 # circacompare 0.1.1
 
 ## Improvements

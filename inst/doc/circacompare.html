@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>circacompare</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">circacompare</h1>
+
+
+
+<div id="updates-since-the-initial-release-circacompare-0.1.0-and-bioinformatics-journal-article." class="section level2">
+<h2>Updates since the initial release (circacompare 0.1.0) and <a href="https://doi.org/10.1093/bioinformatics/btz730">Bioinformatics
+journal article</a>.</h2>
+<p>There have been several added features to the current version of the
+circacompare package since the publication in Bioinformatics and initial
+release on CRAN. Many of the possible uses for this package are not
+described in the manuscript. The approach to compare two groups of
+rhythmic data, regarding mesor, amplitude and phase, as described in the
+manuscript, can be completed by using the <code>circacompare()</code>
+function under the default settings in any version of the package. In
+addition to this, the current version offers approaches to:</p>
+<ul>
+<li>Perform analysis on a single rhythmic dataset to estimate its mesor,
+amplitude and phase.</li>
+<li>Choose to use a known period (user-determined) or to let the model
+estimate the period from the data.</li>
+<li>Add parameters to estimate the exponential decay in any of the
+rhythmic characteristics.</li>
+<li>Use a mixed-model instead of a fixed effects model to take into
+account within-subject correlation regarding any set of rhythmic
+characteristics.</li>
+<li>Perform a comparison between groups regarding all or a subset of
+rhythmic characteristics.</li>
+</ul>
+</div>
+<div id="introduction-to-circacompare-using-fixed-effects-only-models-and-no-customized-model-parametrization" class="section level2">
+<h2>Introduction to circacompare, using fixed-effects only models and no
+customized model parametrization</h2>
+<div id="input-data" class="section level3">
+<h3>Input data</h3>
+<p>The first part of using circacompare to analyse your data is to
+ensure that your data is formatted correctly. All of the functions
+within the circacompare package expect that your data will be of a tidy
+format, meaning that each row will contain only one observation, with
+columns to represent the time, group or subject ID for that
+observation.</p>
+<p>In the simplest case, you may have a single rhythm for which you’re
+wanting to estimate the mesor, amplitude and phase. In this case, you
+only need a variable for the time of observation and the outcome which
+you’re wanting to model.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(circacompare)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>data_single <span class="ot">&lt;-</span> <span class="fu">make_data</span>(<span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">alpha1 =</span> <span class="dv">0</span>, <span class="at">phi1 =</span> <span class="dv">0</span>, <span class="at">noise_sd =</span> <span class="dv">1</span>)[<span class="fu">c</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;measure&quot;</span>)]</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">head</span>(data_single)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   time    measure</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 1    1 11.0302167</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 2    2  8.0955559</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 3    3  7.4341962</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 4    4  5.6328626</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 5    5  2.9924588</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 6    6 -0.1061245</span></span></code></pre></div>
+<p>In the case that you have data from two groups and you’re wishing to
+determine the differences in mesor, amplitude, or phase between them,
+you will need an additional column (with two possible values)
+representing the groups.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>data_grouped <span class="ot">&lt;-</span> <span class="fu">make_data</span>(<span class="at">phi1 =</span> <span class="dv">6</span>, <span class="at">noise_sd =</span> <span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(data_grouped)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;   time  measure group</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; 1    1 8.527520    g1</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 2    2 7.201040    g1</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 3    3 7.151050    g1</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 4    4 5.653204    g1</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 5    5 3.789156    g1</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 6    6 1.044751    g1</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="fu">tail</span>(data_grouped)</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;    time  measure group</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; 91   43 10.95842    g2</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; 92   44 13.66312    g2</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; 93   45 14.43497    g2</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; 94   46 15.00277    g2</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; 95   47 17.20176    g2</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 96   48 16.09730    g2</span></span></code></pre></div>
+</div>
+<div id="circa_single" class="section level3">
+<h3><code>circa_single()</code></h3>
+<p><code>circa_single()</code> is used to analyse a single rhythm and
+provide estimates of its mesor, amplitude and phase.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">circa_single</span>(<span class="at">x =</span> data_single, <span class="at">col_time =</span> <span class="st">&quot;time&quot;</span>, <span class="at">col_outcome =</span> <span class="st">&quot;measure&quot;</span>, <span class="at">period =</span> <span class="dv">24</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>result</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; $fit</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Nonlinear regression model</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   model: measure ~ k + (alpha) * cos((1/period) * time_r - (phi))</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;    data: x</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;        k    alpha      phi </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  0.05322 10.07049  0.01645 </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  residual sum-of-squares: 101.8</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; Number of iterations to convergence: 5 </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; Achieved convergence tolerance: 1.409e-08</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; $summary</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;         parameter        value</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 1      rhythmic_p 2.524709e-80</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 2           mesor 5.322136e-02</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 3       amplitude 1.007049e+01</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 4   phase_radians 1.645014e-02</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 5 peak_time_hours 6.283490e-02</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 6          period 2.400000e+01</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; $plot</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The fitted model is included as the first element of the results.</p>
+<p>It fits a model: <code>measure ~ k + alpha * cos(time_r - phi)</code>
+where</p>
+<ul>
+<li><p><code>measure</code> is the outcome of interest</p></li>
+<li><p><code>k</code> is the mesor</p></li>
+<li><p><code>alpha</code> is the amplitude</p></li>
+<li><p><code>time_r</code> is the time in radian-hours, and</p></li>
+<li><p><code>phi</code> is the amount of phase shift (from
+<code>time=0</code>) in radian-hours.</p></li>
+</ul>
+<p>The parameter estimates of time in radian-hours (<code>time_r</code>
+and <code>phi</code>) are converted back to hours and reported in the
+<code>data.frame</code> (second element of list) and x-axis of the graph
+(third item of list)</p>
+</div>
+<div id="circacompare" class="section level3">
+<h3><code>circacompare()</code></h3>
+<p><code>circacompare()</code> is used to analyse a dataset with two
+groups of rhythmic data. It fits a model to estimate and statistically
+support differences in mesor, amplitude and phase between the two
+groups.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>result2 <span class="ot">&lt;-</span> <span class="fu">circacompare</span>(<span class="at">x =</span> data_grouped, <span class="at">col_time =</span> <span class="st">&quot;time&quot;</span>, <span class="at">col_group =</span> <span class="st">&quot;group&quot;</span>, <span class="at">col_outcome =</span> <span class="st">&quot;measure&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>result2</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; $plot</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<pre><code>#&gt; 
+#&gt; $summary
+#&gt;                                   parameter         value
+#&gt; 1  Presence of rhythmicity (p-value) for g1  3.232078e-41
+#&gt; 2  Presence of rhythmicity (p-value) for g2  3.863381e-50
+#&gt; 3                         g1 mesor estimate -1.842952e-01
+#&gt; 4                         g2 mesor estimate  2.921261e+00
+#&gt; 5                 Mesor difference estimate  3.105556e+00
+#&gt; 6              P-value for mesor difference  2.041191e-29
+#&gt; 7                     g1 amplitude estimate  9.767675e+00
+#&gt; 8                     g2 amplitude estimate  1.408205e+01
+#&gt; 9             Amplitude difference estimate  4.314378e+00
+#&gt; 10         P-value for amplitude difference  6.866194e-29
+#&gt; 11                       g1 peak time hours  2.396898e+01
+#&gt; 12                       g2 peak time hours  2.294131e+01
+#&gt; 13                Phase difference estimate -1.027669e+00
+#&gt; 14          P-value for difference in phase  1.138808e-19
+#&gt; 15                   Shared period estimate  2.400000e+01
+#&gt; 
+#&gt; $fit
+#&gt; Nonlinear regression model
+#&gt;   model: measure ~ (k + k1 * x_group) + ((alpha + alpha1 * x_group)) *     cos((1/period) * time_r - ((phi + phi1 * x_group)))
+#&gt;    data: x
+#&gt;       k      k1   alpha  alpha1     phi    phi1 
+#&gt; -0.1843  3.1056  9.7677  4.3144 12.5582 -0.2690 
+#&gt;  residual sum-of-squares: 74.18
+#&gt; 
+#&gt; Number of iterations to convergence: 4 
+#&gt; Achieved convergence tolerance: 1.151e-08</code></pre>
+<p>This fits a model:
+<code>measure ~ k + k1 * x_group + (alpha + alpha1 * x_group) * cos(time_r - (phi + phi1 * x_group))</code>
+where</p>
+<ul>
+<li><p><code>x_group</code> is a dummy variable which represents the
+different groups: <code>x_group=0</code> and <code>x_group=1</code> for
+the first and second group, respectively</p></li>
+<li><p><code>measure</code> is the outcome of interest</p></li>
+<li><p><code>k</code> is the mesor of the first group</p></li>
+<li><p><code>k1</code> is the difference in mesor between the first and
+second group</p></li>
+<li><p><code>alpha</code> is the amplitude of the first group</p></li>
+<li><p><code>alpha1</code> is the difference in amplitude between the
+first and second group</p></li>
+<li><p><code>time_r</code> is the time in radian-hours</p></li>
+<li><p><code>phi</code> is the amount of phase-shift of the first group
+(from <code>time=0</code>) in radian-hours, and</p></li>
+<li><p><code>phi1</code> is the amount of phase-shift of the second
+group from the first group in radian-hours</p></li>
+</ul>
+<p>The time-related parameter estimates (<code>phi</code> and
+<code>phi1</code>) are converted from radian-hours to hours before being
+used to report <code>g1 peak time</code>, <code>g2 peak time</code>, and
+<code>phase difference estimate</code>.</p>
+<p>The second item of the <code>result2</code> list is a data.frame
+containing the important results from the model. It returns estimates
+and for the rhythmic parameters for each group as well as the p-values
+associated with those which represent differences between the groups
+(<code>k1</code>, <code>alpha1</code>, <code>phi1</code>).</p>
+<p>More detailed outputs from the model can be obtained from the model
+itself</p>
+</div>
+<div id="when-to-use-what" class="section level3">
+<h3>When to use what</h3>
+<p>If you are looking to estimate the rhythmic parameters of a single
+group, use <code>circa_single()</code>. If you are looking to estimate
+the differences between two rhythmic datasets, use
+<code>circacompare()</code></p>
+<p>If your data has a hierarchical structure, a mixed model may be more
+appropriate (keep reading). This may be the case if you have repeated
+measurements from the same subjects/tissues over time, for example. In
+this case, consider the equivalents of the above:
+<code>circa_single_mixed()</code> and <code>circacompare_mixed()</code>.
+In addition to what has been described, these mixed models require the
+user to specify which parameters ought to have a random effect and the
+identifying column (<code>col_id</code>) for this hierarchical
+structure.</p>
+</div>
+</div>
+<div id="mixed-model-variants-and-how-to-customize-the-parameterization-of-the-model" class="section level2">
+<h2>Mixed-model variants and how to customize the parameterization of
+the model</h2>
+<div id="firstly-a-mention-on-control-and-model-parameters" class="section level3">
+<h3>Firstly, a mention on <code>control</code> and model parameters</h3>
+<p>When we refer to parameters, we are talking about covariates in the
+model being fit that will represent rhythmic characteristics of the
+data. Arguments are what the user (you) supplies when calling the
+function.</p>
+<p>For all of the circacompare functions, the argument
+<code>control</code> contains a list of optional arguments that can be
+used to modify the parameterization of the model being fit. This list
+includes <code>main_params</code>, <code>decay_params</code>,
+<code>rand_params</code>, <code>group_params</code> which are all
+character vectors. The naming conventions of values within these vectors
+is consistent with our model formulas described earlier: “k” for mesor,
+“alpha” for amplitude, “phi” for phase. The additional parameter we
+introduce here is “tau” for period.</p>
+<p>In <code>circa_single()</code> there are no groups to model
+differences between so <code>group_params</code> is ignored. Since there
+are also no random effects, <code>rand_params</code> is also ignored.
+Only the <code>main_params</code> and <code>decay_params</code> are
+considered. Similarly, <code>circacompare()</code> considers
+<code>main_params</code>, <code>decay_params</code>, and ignores
+<code>rand_params()</code>, but also includes <code>group_params</code>
+as it is used to consider the differences between groups. Only the
+mixed-model variants of these two functions,
+<code>circa_single_mixed()</code> and <code>circacompare_mixed()</code>,
+consider <code>rand_params</code>.</p>
+<p>For the <code>main_params</code> vector, the possible values are
+<code>k</code> for the mesor, <code>alpha</code> for amplitude,
+<code>phi</code> for phase, and <code>tau</code>. The only optional
+parameter of these in the <code>main_params</code> is <code>tau</code>,
+the rest must be included at all times. The default is
+<code>main_params=c(&quot;k&quot;, &quot;alpha&quot;, &quot;phi&quot;)</code>, which excludes the
+parameterization of period in the model.</p>
+<p>The values within <code>decay_params</code> must be a set within
+<code>main_params</code> as, for example, we can’t model the decay in
+period, without modeling the starting period. The default is to not
+model decay of any rhythmic characteristics:
+<code>decay_params=c()</code>.</p>
+<p>Additional possible arguments in the <code>control</code> list
+are:</p>
+<ul>
+<li><code>period_param</code> adds <code>&quot;tau&quot;</code> to the
+<code>main_params</code> if <code>TRUE</code>; default:
+<code>period_param=FALSE</code>.</li>
+<li><code>period_min</code> estimated bottom range for period starting
+values when performing nonlinear regression; default:
+<code>period_min=20</code>.</li>
+<li><code>period_max</code> estimated upper range for period starting
+values when performing nonlinear regression;
+<code>period_max=28</code>,</li>
+</ul>
+<p>If you are modeling non-circadian (but still rhythmic) data, with a
+much larger or smaller period than 24 hours, and you want to have the
+model estimate the period (<code>tau</code>) you can change
+<code>period_min</code> and <code>period_max</code> to more realistic
+ranges. This may reduce the time required for the model to converge.</p>
+<p>Note that when adding parameters to <code>decay_params</code>, you
+should call the name of the parameter in as it is in main_params -
+<code>decay_params=c(&quot;k&quot;)</code>, for example. This will add a new
+parameter <code>k_decay</code> to the model. If you want to add a
+grouping parameter to this decay parameter, you need to call the decay
+of mesor explicitly, <code>group_params=c(&quot;k_decay&quot;)</code>, as
+<code>&quot;k&quot;</code> alone would be referring to the mesor value, not the
+decay of mesor over time.</p>
+<p>Similarly, when adding parameters as random-effects by adding to
+<code>rand_params</code>, we need to call the parameter name (including
+it’s suffix: “<code>_decay</code>” for decay parameters and
+“<code>1</code>” for group parameters, or “<code>_decay1</code>” for
+grouped decay parameters). If I wanted to fit a model with the default
+<code>main_params</code> as well as period (<code>tau</code>), a decay
+in mesor (<code>k</code>), and grouping on mesor decay rate, amplitude
+and phase, but not starting mesor:</p>
+<p><code>control=list(main_params=c(&quot;k&quot;, &quot;alpha&quot;, &quot;phi&quot;, &quot;tau&quot;), decay_params=c(&quot;k&quot;), group_params=c(&quot;k_decay&quot;, &quot;alpha&quot;, &quot;phi&quot;))</code></p>
+<p>The resulting model will assume that both groups have a shared mesor
+and period as <code>&quot;k&quot;</code> and <code>&quot;tau&quot;</code>, respectively, are
+excluded from <code>group_params</code>. The model will estimate the
+period from the data. It will model the exponential decay in mesor as
+well as the influence of group assignment on this rate of decay.</p>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<p>If you have repeated measures data, then it may be inappropriate to
+use a standard fixed effects only model. In this case, you should use a
+mixed model, with context-relevant random effects for the
+ID/subjects/mice from which you’re obtaining repeated observations.</p>
+<p>Here, I have some data that has some simulated within-id correlation
+in terms of the amount of phase shift between groups.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>phi1_in <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>mixed_data <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  counter <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">make_data</span>(<span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">alpha1 =</span> <span class="dv">5</span>, <span class="at">phi1 =</span> <span class="fu">rnorm</span>(<span class="dv">1</span>, phi1_in, <span class="dv">1</span>), <span class="at">hours =</span> <span class="dv">72</span>, <span class="at">noise_sd =</span> <span class="dv">2</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    x<span class="sc">$</span>id <span class="ot">&lt;-</span> counter</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    counter <span class="ot">&lt;-</span> counter <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>      res <span class="ot">&lt;-</span> x</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>      res <span class="ot">&lt;-</span> <span class="fu">rbind</span>(res, x)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    }</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  }</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  <span class="fu">return</span>(res)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>}</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">mixed_data</span>(<span class="dv">20</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">circacompare_mixed</span>(</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="at">x =</span> df,</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>  <span class="at">col_time =</span> <span class="st">&quot;time&quot;</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>  <span class="at">col_group =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>  <span class="at">col_outcome =</span> <span class="st">&quot;measure&quot;</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>  <span class="at">col_id =</span> <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">grouped_params =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;phi&quot;</span>), <span class="at">random_params =</span> <span class="fu">c</span>(<span class="st">&quot;phi1&quot;</span>)),</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>  <span class="at">period =</span> <span class="dv">24</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>  <span class="at">suppress_all =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>)</span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> df[df<span class="sc">$</span>id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>), ], <span class="fu">aes</span>(time, measure)) <span class="sc">+</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">col =</span> group)) <span class="sc">+</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">interaction</span>(<span class="fu">as.factor</span>(id), group)), <span class="at">span =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>id)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>For each subject (<code>id</code>), there are measurements in both
+groups (<code>g1</code> and <code>g2</code>) but the degree of change in
+phase between <code>g1</code> to <code>g2</code> is subject-dependent.
+The phase of group 1 is not subject-dependent, though, as each subject
+has approximately the same phase in <code>g1</code>. However, it’s the
+amount of phase shift from <code>g1</code> to <code>g2</code> that is
+subject-dependent. This is equivalent to each subject having a random
+slope term but not a random intercept. In an experimental context, this
+could be the case when mice are kept under light-dark (LD) conditions
+<code>g1</code> and then moved to constant conditions (LL or DD),
+<code>g2</code>. We would expect the phase to be consistent under the
+same conditions in <code>g1</code> but the change in phase when they are
+moved to LL or DD could be mouse-dependent.</p>
+<p>In this scenario, we want to have a “random-slope” on the phase, so
+we should include <code>phi1</code> as a random effect. Also, since we
+know (from the data generating process) that both groups share the same
+mesor but not amplitude, we included <code>alpha</code> and
+<code>phi</code> as grouped parameters, but excluded <code>k</code>. We
+also know that the period is 24 hours, so we didn’t bother fitting a
+parameter period either (adding <code>&quot;tau&quot;</code> to
+<code>main_params</code>) so we left <code>main_params</code> at its
+default value: <code>main_params=c(&quot;k&quot;, &quot;alpha&quot;, &quot;phi&quot;)</code>. In the
+code above, we used:
+<code>control=list(grouped_params=c(&quot;alpha&quot;, &quot;phi&quot;), random_params=c(&quot;phi1&quot;))</code></p>
+<p>From the data generating process used above, we expect:</p>
+<ul>
+<li><code>phi1=3</code></li>
+<li><code>alpha1=5</code></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>out<span class="sc">$</span>plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(circacompare<span class="sc">:::</span><span class="fu">extract_model_coefs</span>(out<span class="sc">$</span>fit))</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>summary<span class="sc">$</span><span class="st">`</span><span class="at">95% CI ll</span><span class="st">`</span> <span class="ot">&lt;-</span> summary<span class="sc">$</span>estimate <span class="sc">-</span> summary<span class="sc">$</span>std_error <span class="sc">*</span> <span class="fl">1.96</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>summary<span class="sc">$</span><span class="st">`</span><span class="at">95% CI ul</span><span class="st">`</span> <span class="ot">&lt;-</span> summary<span class="sc">$</span>estimate <span class="sc">+</span> summary<span class="sc">$</span>std_error <span class="sc">*</span> <span class="fl">1.96</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>summary</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;            estimate   std_error      p_value    95% CI ll   95% CI ul</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; k      -0.030108353 0.037543858 4.226477e-01 -0.103694314  0.04347761</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; alpha   9.973999568 0.075087709 0.000000e+00  9.826827659 10.12117148</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; phi     0.005516404 0.007528366 4.637715e-01 -0.009239193  0.02027200</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; alpha1  5.099811193 0.106190057 0.000000e+00  4.891678682  5.30794370</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; phi1    2.992445777 0.193146839 4.776742e-52  2.613877972  3.37101358</span></span></code></pre></div>
+<p>The effects were all pretty well estimated, given the 95% confidence
+intervals from the model outputs. If we expect the subject’s to have
+different starting phases but their change in phase between groups to be
+the same, we may have put the random effect on <code>phi</code> rather
+than <code>phi1</code>.</p>
+<p>Perhaps more commonly applicable would be if each subject has some
+random mesor or baseline expression level. In this case, it may be
+worthwhile to include <code>k</code> as a random effect. If
+<code>k</code> is included, this is equivalent to giving all subjects a
+“random intercept” as baseline levels of the outcome for each subject
+will be the random effect.</p>
+</div>
+</div>
+<div id="period-and-decay-parameters" class="section level2">
+<h2>Period and decay parameters</h2>
+<p>There is the option to add parameters to represent the decay of any
+rhythmic characteristic as well as the difference between groups for
+this decay. For model below, we make simulated data with no difference
+in mesor or phase between groups, a randomly generated period between 8
+and 20 hours that we want to estimate (and will check at the end). We
+also have one group which has exponentially decaying amplitude at the
+rate:</p>
+<p><span class="math display">\[
+\alpha*e^{-\alpha_{decay}*t}
+\]</span> Where <code>alpha</code> is the amplitude, and <code>t</code>
+is time in radian-hours.</p>
+<p>In our case, <code>alpha_decay</code> will be another randomly
+generated value, somewhere between 0.02 and 0.05, that we will check at
+the end.</p>
+<p>To model these data, we will include all the standard parameters as
+well as <code>tau</code> (to estimate the period) in the
+<code>main_params</code>:
+<code>main_params=c(&quot;k&quot;, &quot;alpha&quot;, &quot;phi&quot;, &quot;tau&quot;)</code></p>
+<p>We will include the term for amplitude (<code>alpha</code>) in the
+<code>decay_params</code>: <code>decay_params=c(&quot;alpha&quot;)</code></p>
+<p>And we will model the differences between groups for both the
+starting amplitude,<code>alpha</code>, and its decay over time
+<code>alpha_decay</code>:
+<code>grouped_params=c(&quot;alpha&quot;, &quot;alpha_decay&quot;)</code></p>
+<p>This produces the following model:</p>
+<p><code>measure~k+((alpha+alpha1*x_group)*exp(-(alpha_decay+alpha_decay1*x_group)*time_r))*cos((24/(tau))*time_r-(phi))</code></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>tau_in <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">20</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>alpha_decay1_in <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>, <span class="fl">0.02</span>, <span class="fl">0.05</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">make_data</span>(<span class="at">k1 =</span> <span class="dv">0</span>, <span class="at">alpha1 =</span> <span class="dv">10</span>, <span class="at">phi1 =</span> <span class="dv">0</span>, <span class="at">seed =</span> <span class="dv">42</span>, <span class="at">hours =</span> <span class="dv">120</span>, <span class="at">noise_sd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>df<span class="sc">$</span>time <span class="ot">&lt;-</span> df<span class="sc">$</span>time <span class="sc">/</span> <span class="dv">24</span> <span class="sc">*</span> tau_in</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># Note that when decay is estimated, it is on a scale of time in hours. There is no relation decay rate and the period.</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>df<span class="sc">$</span>measure[df<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;g2&quot;</span>] <span class="ot">&lt;-</span> df<span class="sc">$</span>measure[df<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;g2&quot;</span>] <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>alpha_decay1_in <span class="sc">*</span> df<span class="sc">$</span>time[df<span class="sc">$</span>group <span class="sc">==</span> <span class="st">&quot;g2&quot;</span>])</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>out_alpha_decay <span class="ot">&lt;-</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="fu">circacompare</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    <span class="at">x =</span> df, <span class="st">&quot;time&quot;</span>, <span class="st">&quot;group&quot;</span>, <span class="st">&quot;measure&quot;</span>, <span class="at">period =</span> <span class="cn">NA</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    <span class="at">control =</span> <span class="fu">list</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>      <span class="at">main_params =</span> <span class="fu">c</span>(<span class="st">&quot;k&quot;</span>, <span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;phi&quot;</span>, <span class="st">&quot;tau&quot;</span>),</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>      <span class="at">decay_params =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>),</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>      <span class="at">grouped_params =</span> <span class="fu">c</span>(<span class="st">&quot;alpha&quot;</span>, <span class="st">&quot;alpha_decay&quot;</span>),</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>      <span class="at">period_min =</span> <span class="dv">2</span>, <span class="at">period_max =</span> <span class="dv">24</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>    )</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  )</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-36"><a href="#cb10-36" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-37"><a href="#cb10-37" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-38"><a href="#cb10-38" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-39"><a href="#cb10-39" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-40"><a href="#cb10-40" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-41"><a href="#cb10-41" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-42"><a href="#cb10-42" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-43"><a href="#cb10-43" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-44"><a href="#cb10-44" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-45"><a href="#cb10-45" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-46"><a href="#cb10-46" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-47"><a href="#cb10-47" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-48"><a href="#cb10-48" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-49"><a href="#cb10-49" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-50"><a href="#cb10-50" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-51"><a href="#cb10-51" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-52"><a href="#cb10-52" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-53"><a href="#cb10-53" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-54"><a href="#cb10-54" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-55"><a href="#cb10-55" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-56"><a href="#cb10-56" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-57"><a href="#cb10-57" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-58"><a href="#cb10-58" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-59"><a href="#cb10-59" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-60"><a href="#cb10-60" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-61"><a href="#cb10-61" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-62"><a href="#cb10-62" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-63"><a href="#cb10-63" tabindex="-1"></a><span class="co">#&gt;   number of iterations exceeded maximum of 50</span></span>
+<span id="cb10-64"><a href="#cb10-64" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-65"><a href="#cb10-65" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-66"><a href="#cb10-66" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-67"><a href="#cb10-67" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-68"><a href="#cb10-68" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-69"><a href="#cb10-69" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-70"><a href="#cb10-70" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-71"><a href="#cb10-71" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-72"><a href="#cb10-72" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-73"><a href="#cb10-73" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-74"><a href="#cb10-74" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-75"><a href="#cb10-75" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-76"><a href="#cb10-76" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-77"><a href="#cb10-77" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-78"><a href="#cb10-78" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-79"><a href="#cb10-79" tabindex="-1"></a><span class="co">#&gt;   number of iterations exceeded maximum of 50</span></span>
+<span id="cb10-80"><a href="#cb10-80" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-81"><a href="#cb10-81" tabindex="-1"></a><span class="co">#&gt;   number of iterations exceeded maximum of 50</span></span>
+<span id="cb10-82"><a href="#cb10-82" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-83"><a href="#cb10-83" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-84"><a href="#cb10-84" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-85"><a href="#cb10-85" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-86"><a href="#cb10-86" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-87"><a href="#cb10-87" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-88"><a href="#cb10-88" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-89"><a href="#cb10-89" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-90"><a href="#cb10-90" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-91"><a href="#cb10-91" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-92"><a href="#cb10-92" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-93"><a href="#cb10-93" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-94"><a href="#cb10-94" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-95"><a href="#cb10-95" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-96"><a href="#cb10-96" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-97"><a href="#cb10-97" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-98"><a href="#cb10-98" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-99"><a href="#cb10-99" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-100"><a href="#cb10-100" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-101"><a href="#cb10-101" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-102"><a href="#cb10-102" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-103"><a href="#cb10-103" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-104"><a href="#cb10-104" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-105"><a href="#cb10-105" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-106"><a href="#cb10-106" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-107"><a href="#cb10-107" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-108"><a href="#cb10-108" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-109"><a href="#cb10-109" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-110"><a href="#cb10-110" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-111"><a href="#cb10-111" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-112"><a href="#cb10-112" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-113"><a href="#cb10-113" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-114"><a href="#cb10-114" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-115"><a href="#cb10-115" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-116"><a href="#cb10-116" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-117"><a href="#cb10-117" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-118"><a href="#cb10-118" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-119"><a href="#cb10-119" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-120"><a href="#cb10-120" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-121"><a href="#cb10-121" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-122"><a href="#cb10-122" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-123"><a href="#cb10-123" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-124"><a href="#cb10-124" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-125"><a href="#cb10-125" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-126"><a href="#cb10-126" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-127"><a href="#cb10-127" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-128"><a href="#cb10-128" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-129"><a href="#cb10-129" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-130"><a href="#cb10-130" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-131"><a href="#cb10-131" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-132"><a href="#cb10-132" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-133"><a href="#cb10-133" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-134"><a href="#cb10-134" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-135"><a href="#cb10-135" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-136"><a href="#cb10-136" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-137"><a href="#cb10-137" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-138"><a href="#cb10-138" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-139"><a href="#cb10-139" tabindex="-1"></a><span class="co">#&gt;   number of iterations exceeded maximum of 50</span></span>
+<span id="cb10-140"><a href="#cb10-140" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-141"><a href="#cb10-141" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-142"><a href="#cb10-142" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-143"><a href="#cb10-143" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-144"><a href="#cb10-144" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-145"><a href="#cb10-145" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-146"><a href="#cb10-146" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-147"><a href="#cb10-147" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-148"><a href="#cb10-148" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-149"><a href="#cb10-149" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-150"><a href="#cb10-150" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-151"><a href="#cb10-151" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-152"><a href="#cb10-152" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-153"><a href="#cb10-153" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-154"><a href="#cb10-154" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-155"><a href="#cb10-155" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-156"><a href="#cb10-156" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-157"><a href="#cb10-157" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-158"><a href="#cb10-158" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-159"><a href="#cb10-159" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-160"><a href="#cb10-160" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-161"><a href="#cb10-161" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-162"><a href="#cb10-162" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-163"><a href="#cb10-163" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-164"><a href="#cb10-164" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-165"><a href="#cb10-165" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-166"><a href="#cb10-166" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-167"><a href="#cb10-167" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-168"><a href="#cb10-168" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-169"><a href="#cb10-169" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-170"><a href="#cb10-170" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-171"><a href="#cb10-171" tabindex="-1"></a><span class="co">#&gt;   step factor 0.000488281 reduced below &#39;minFactor&#39; of 0.000976562</span></span>
+<span id="cb10-172"><a href="#cb10-172" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-173"><a href="#cb10-173" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-174"><a href="#cb10-174" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-175"><a href="#cb10-175" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-176"><a href="#cb10-176" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-177"><a href="#cb10-177" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-178"><a href="#cb10-178" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-179"><a href="#cb10-179" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-180"><a href="#cb10-180" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-181"><a href="#cb10-181" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-182"><a href="#cb10-182" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-183"><a href="#cb10-183" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-184"><a href="#cb10-184" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-185"><a href="#cb10-185" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-186"><a href="#cb10-186" tabindex="-1"></a><span class="co">#&gt; Error in numericDeriv(form[[3L]], names(ind), env, central = nDcentral) : </span></span>
+<span id="cb10-187"><a href="#cb10-187" tabindex="-1"></a><span class="co">#&gt;   Missing value or an infinity produced when evaluating the model</span></span>
+<span id="cb10-188"><a href="#cb10-188" tabindex="-1"></a><span class="co">#&gt; Error in stats::nls(formula = form, data = data, start = starting_params,  : </span></span>
+<span id="cb10-189"><a href="#cb10-189" tabindex="-1"></a><span class="co">#&gt;   singular gradient</span></span>
+<span id="cb10-190"><a href="#cb10-190" tabindex="-1"></a></span>
+<span id="cb10-191"><a href="#cb10-191" tabindex="-1"></a>out_alpha_decay<span class="sc">$</span>plot</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>summary <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(circacompare<span class="sc">:::</span><span class="fu">extract_model_coefs</span>(out_alpha_decay<span class="sc">$</span>fit))</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>summary<span class="sc">$</span><span class="st">`</span><span class="at">95% CI ll</span><span class="st">`</span> <span class="ot">&lt;-</span> summary<span class="sc">$</span>estimate <span class="sc">-</span> summary<span class="sc">$</span>std_error <span class="sc">*</span> <span class="fl">1.96</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>summary<span class="sc">$</span><span class="st">`</span><span class="at">95% CI ul</span><span class="st">`</span> <span class="ot">&lt;-</span> summary<span class="sc">$</span>estimate <span class="sc">+</span> summary<span class="sc">$</span>std_error <span class="sc">*</span> <span class="fl">1.96</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>summary<span class="sc">$</span>p_value <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>summary</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt;                   estimate    std_error    95% CI ll    95% CI ul</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; k            -3.395680e-02 0.1013869343 -0.232675190  0.164761593</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; alpha         1.009223e+01 0.4052065411  9.298023490 10.886433132</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; alpha_decay   5.435634e-05 0.0007432629 -0.001402439  0.001511152</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="co">#&gt; alpha1        8.632206e+00 0.8813664890  6.904727810 10.359684447</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; alpha_decay1  3.739105e-02 0.0023140219  0.032855568  0.041926533</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; tau           1.850420e+01 0.0327073592 18.440090365 18.568303213</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; phi           1.338627e-02 0.0270875222 -0.039705277  0.066477810</span></span></code></pre></div>
+<p>We now have estimates and 95% confidence intervals for the difference
+in amplitude decay between groups (<code>alpha_decay1</code>) and the
+period (<code>tau</code>) that were of interest. Lets see the values we
+used to generate the data and check that the confidence intervals were
+appropriate.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Real period: &quot;</span>, tau_in, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="st">&quot;Real alpha_decay: &quot;</span>, alpha_decay1_in,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; Real period: 18.50667</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; Real alpha_decay: 0.03999372</span></span></code></pre></div>
+<p>Looks like our estimates and confidence intervals suited our
+now-known data generating process well!</p>
+</div>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
+<div id="decay-functions" class="section level3">
+<h3>Decay functions</h3>
+<p>Currently, decay parameters are used to model exponential decay as
+this seemed sensible for most biological contexts. However, users may
+want to model decay as a linear (or some other) function. There is no
+implementation for this in the current package. If this is of interest
+to you, please contact me or create an issue on GitHub.</p>
+</div>
+<div id="period-and-phase-parameters" class="section level3">
+<h3>Period and phase parameters</h3>
+<p>It may be tempting to investigate the differences between two groups
+of rhythmic data regarding everything! But, unfortunately, there are
+limitations. If two groups of data are allowed to vary regarding their
+period, the interpretation of a difference in phase is no longer
+appropriate. For example, if two rhythms have different periods, at what
+time are you wanting to know the difference in phase between the groups?
+The amount of phase-shift will differ over time if they have different
+periods. For this reason, you cannot have both <code>tau</code> and
+<code>phi</code> within <code>group_params</code> in either
+<code>circacompare()</code> or <code>circacompare_mixed()</code>.</p>
+</div>
+<div id="model-diagnostics-and-choice" class="section level3">
+<h3>Model diagnostics and choice</h3>
+<p>When using circa_single() or circacompare() a nonlinear regression
+model (with fixed-effects only) of class <code>nls</code> is fit. When
+using circa_single_mixed() or circacompare_mixed() a nonlinear mixed
+regression model of class <code>nlme</code> is fit. Users should be
+aware of the assumptions of these models when interpreting the results.
+See <a href="https://doi.org/10.18637/jss.v066.i05">here</a> for a
+thorough discussion of model assumptions and performing diagnostic tests
+using the <code>{nlstools}</code> package.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
